@@ -8,6 +8,7 @@ class TupleSpace:
         # a threading lock to ensure multithreading security
         self.lock = threading.Lock()
         # a dictionary to record the static info
+        # the total number of clients , the total number of operations, total READs, total GETs, total PUTs, and how many errors.
         self.stats ={
             'total_clients':0,
             'total_operation':0,
@@ -54,6 +55,7 @@ class TupleSpace:
         with self.lock:
             self.stats['toatl_clients'] +=1
     
+    # Server output：the number of tuples , the average tuple size, the average key size, the average value size (string),
     def get_stats(self):
         with self.lock:
             num_tuples = len(self.tuples)
@@ -72,4 +74,3 @@ class TupleSpace:
             })
         
         return stats
-##
