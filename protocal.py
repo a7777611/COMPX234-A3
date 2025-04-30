@@ -26,9 +26,14 @@ def valid_request(request):
         if len(key) or len(value) > 999:
             return False,"key or value is too long"
     
-    return True
+    return True, ""
 
+# NNN R/G/P k [v]
 def format_requeset(request):
+    valid, msg = valid_request(request)
+    if not valid:
+        raise ValueError(msg)
+    
     parts = request.strip().split(maxsplit=1)
 
     operation = parts[0]
@@ -36,20 +41,23 @@ def format_requeset(request):
 
     if operation == 'GET':
         op = 'G'
-        requests = f"{op} {remaining}"         
+        formatted_request = f"{op} {remaining}"         
 
     elif operation == 'READ':
         op = 'R'
-        requests = f"{op} {remaining}"
+        formatted_request = f"{op} {remaining}"
     
     else: 
         key_value = remaining.split(maxsplit=1)
         key,value = key_value
         op = 'P'
-        requests = f"{op} {key} {value}"
+        formatted_request = f"{op} {key} {value}"
 
-    size = len(requests) + 4 # 3 for size and 1 for space
-    return f"{size:03d} {requests}" 
+    size = 4 + len(formatted_request) # 3 for size digits and 1 for space
+    # check the total size
+    if size > 999:
+        raise ValueError("Request size exceeds maximum limit")
+    return f"{size:03d} {formatted_request}" 
 
 def parse_response(response):
     parts = response.split(maxsplit=1)
