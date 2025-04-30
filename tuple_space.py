@@ -24,7 +24,7 @@ class TupleSpace:
             self.stats['total_operations'] +=1
             self.stats['total_reads'] +=1
             if key in self.tuples:
-                return f"OK ({key},{self.tuples[key]}"
+                return f"OK ({key},{self.tuples[key]} read"
             else:
                 self.stats['total_errors'] +=1
                 return f"ERR {key} does not exist"
