@@ -39,6 +39,7 @@ def format_requeset(request):
     operation = parts[0]
     remaining = parts[1]
 
+    # three operations
     if operation == 'GET':
         op = 'G'
         formatted_request = f"{op} {remaining}"         
