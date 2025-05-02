@@ -24,7 +24,7 @@ class Tuple_spaceServer:
             while self.running:
                 try:
                     conn, addr = s.accept()
-                    self.tuple_space.add_client()
+                    self.tuple_space.total_client()
                     threading.Thread(target=self.handle_client, args=(conn, addr)).start()
                 except Exception as e:
                     if self.running:
@@ -59,7 +59,9 @@ class Tuple_spaceServer:
                 try:
                     data = conn.recv(1024).decode('utf-8').strip()
                     if not data:
+                        print(f"[INFO] Client {addr} closed connection")
                         break
+                        
 
                     # Parse the request (NNN R k, NNN G k, NNN P k v)
                     try:
@@ -76,7 +78,7 @@ class Tuple_spaceServer:
                                 response = self.tuple_space.read(content)
                             
                             elif operation == 'G':
-                                response == self.tuple_space.get(content)
+                                response = self.tuple_space.get(content)
                             
                             elif operation == 'P':
                                 try:

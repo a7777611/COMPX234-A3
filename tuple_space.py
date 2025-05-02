@@ -24,7 +24,7 @@ class TupleSpace:
             self.stats['total_operations'] +=1
             self.stats['total_reads'] +=1
             if key in self.tuples:
-                return f"OK ({key},{self.tuples[key]} read"
+                return f"OK ({key},{self.tuples[key]}) read"
             else:
                 self.stats['total_errors'] +=1
                 return f"ERR {key} does not exist"
@@ -53,7 +53,7 @@ class TupleSpace:
     
     def total_client(self):
         with self.lock:
-            self.stats['toatl_clients'] +=1
+            self.stats['total_clients'] +=1
     
     # Server output：the number of tuples , the average tuple size, the average key size, the average value size (string),
     def get_stats(self):

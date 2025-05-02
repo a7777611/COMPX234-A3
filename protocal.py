@@ -3,30 +3,30 @@ def valid_request(request):
     parts = request.strip().split(maxsplit=1)
     
     if len(parts) < 2:
-        return False, "Invalid request format"
+        return (False, "Invalid request format")
     
     operation = parts[0]
     remaining = parts[1]
 
     if operation not in ['PUT','GET','READ']:
-        return False, "Invalid operation"
+        return (False, "Invalid operation")
     
     if operation in ['GET', 'READ']:
         # for GET and READ operation, the remaining part is the key
         key = remaining
         if len(key) > 999:
-            return False, "Key too long"
+            return (False, "Key too long")
     
     elif operation == 'PUT':
         key_value = remaining.split(maxsplit=1)
         key,value = key_value
 
         if len(key_value) < 2:
-            return False, "PUT needs a value"
-        if len(key) or len(value) > 999:
-            return False,"key or value is too long"
+            return (False, "PUT needs a value")
+        if len(key) > 999 or len(value) > 999:
+            return (False,"key or value is too long")
     
-    return True, ""
+    return (True, "")
 
 # NNN R/G/P k [v]
 def format_request(request):

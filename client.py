@@ -20,30 +20,33 @@ class TupleSpaceClient:
                 return
             
             for request in requests:
-                while valid_request(request):
+                valid, msg = valid_request(request)
+                if not valid:
+                    print(f"not valid request'{request}':{msg}")
+                    break
+                try:
+                    # Validate and format the request
+                    formatted = format_request(request)
+                    print(f"Request: {request}")
+        
+                    # Send the request
+                    s.sendall(formatted.encode('utf-8'))
+        
+                    # Receive response
+                    response = s.recv(1024).decode('utf-8')
                     try:
-                        # Validate and format the request
-                        formatted = format_request(request)
-                        print(f"Request: {request}")
-        
-                        # Send the request
-                        s.sendall(formatted.encode('utf-8'))
-        
-                        # Receive response
-                        response = s.recv(1024).decode('utf-8')
-                        try:
-                            size_str, info = response.split(maxsplit=1)
-                            size = int(size_str)
-                            if len(response) != size:
-                                print("Error: Invalid response size")
-                                continue
-                            parsed = parse_response(response)
-                            print(f"Response: {parsed}")
-                        except ValueError:
-                            print(f"Invalid response format: {response}")
-                    except ValueError as e:
-                        print(f"Invalid request '{request}': {str(e)}")
-                        break
+                        size_str, info = response.split(maxsplit=1)
+                        size = int(size_str)
+                        if len(response) != size:
+                            print("Error: Invalid response size")
+                            continue
+                        parsed = parse_response(response)
+                        print(f"Response: {parsed}")
+                    except ValueError:
+                        print(f"Invalid response format: {response}")
+                except ValueError as e:
+                    print(f"Invalid request '{request}': {str(e)}")
+                    break    
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
