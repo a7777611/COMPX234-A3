@@ -57,7 +57,7 @@ class Tuple_spaceServer:
         try:
             while True:
                 try:
-                    data = conn.recv(1024).decode().strip()
+                    data = conn.recv(1024).decode('utf-8').strip()
                     if not data:
                         break
 
@@ -94,12 +94,12 @@ class Tuple_spaceServer:
                     response_size = len(response) + 4# 3 for size digits and 1 for space
                     format_response = f"{response_size:03d} {response}"
                     #send response to client
-                    conn.sendall(format_response.encode())
+                    conn.sendall(format_response.encode('utf-8'))
                 
                 except Exception as e:
                     error_msg = f"ERR Internal server error: {str(e)}"
                     formatted_error = f"{len(error_msg)+4:03d} {error_msg}"
-                    conn.sendall(formatted_error.encode())
+                    conn.sendall(formatted_error.encode('utf-8'))
                     break
         
         except Exception as e:
