@@ -29,7 +29,7 @@ def valid_request(request):
     return True, ""
 
 # NNN R/G/P k [v]
-def format_requeset(request):
+def format_request(request):
     valid, msg = valid_request(request)
     if not valid:
         raise ValueError(msg)
