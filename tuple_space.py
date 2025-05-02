@@ -11,7 +11,7 @@ class TupleSpace:
         # the total number of clients , the total number of operations, total READs, total GETs, total PUTs, and how many errors.
         self.stats ={
             'total_clients':0,
-            'total_operation':0,
+            'total_operations':0,
             'total_reads':0,
             'total_gets':0,
             'total_puts':0,
