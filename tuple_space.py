@@ -64,13 +64,21 @@ class TupleSpace:
                 **self.stats
             }
 
-            total_key_size =sum(len(k) for k in self.tuples.keys()) 
-            total_value_size = sum(len(v) for v in self.tuples.values())
+            if num_tuples > 0:
+                total_key_size = sum(len(k) for k in self.tuples.keys())
+                total_value_size = sum(len(v) for v in self.tuples.values())
+                avg_tuple_size = (total_key_size + total_value_size) / num_tuples
+                avg_key_size = total_key_size / num_tuples
+                avg_value_size = total_value_size / num_tuples
+            else:
+                avg_tuple_size = 0.0
+                avg_key_size = 0.0
+                avg_value_size = 0.0
 
             stats.update({
-                'avg_tuple_size': (total_key_size + total_value_size) / num_tuples,
-                'avg_key_size': total_key_size / num_tuples,
-                'avg_value_size': total_value_size / num_tuples
+                'avg_tuple_size':  avg_tuple_size,
+                'avg_key_size': avg_key_size,
+                'avg_value_size': avg_value_size
             })
         
         return stats
