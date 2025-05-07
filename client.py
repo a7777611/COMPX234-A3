@@ -27,7 +27,7 @@ class TupleSpaceClient:
                 try:
                     # Validate and format the request
                     formatted = format_request(request)
-                    print(f"Request: {request}")
+                    print(f"Request: {formatted}")
         
                     # Send the request
                     s.sendall(formatted.encode('utf-8'))
